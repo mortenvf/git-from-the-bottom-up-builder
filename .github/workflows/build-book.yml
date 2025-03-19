@@ -1,0 +1,20 @@
+name: Build book
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+
+  build-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+    - run: pwd; echo "$GITHUB_WORKSPACE"; ls -la; id; ps aux
+
+    - name: Do the build
+      run: ./build.sh
