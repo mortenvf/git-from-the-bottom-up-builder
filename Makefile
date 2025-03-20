@@ -15,7 +15,9 @@ build/metadata.yml: build
 	git -C "$G" log
 	git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd'
 	echo "$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
-	AUTHOR_DATE="$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
+	echo $(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')
+	AUTHOR_DATE_FOO="$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
+	AUTHOR_DATE=$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')
 	echo "---" >build/metadata.yml
 	cat >>build/metadata.yml <<EOF
 	title: "Git from the Bottom Up"
