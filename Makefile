@@ -11,18 +11,11 @@ build:
 	mkdir -p build
 
 build/metadata.yml: build
-	ls -la "$G"
-	git -C "$G" log
-	git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd'
-	echo "$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
-	echo $(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')
-	AUTHOR_DATE_FOO="$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
-	AUTHOR_DATE=$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')
 	echo "---" >build/metadata.yml
 	cat >>build/metadata.yml <<EOF
 	title: "Git from the Bottom Up"
 	author: "John Wiegley"
-	date: ${AUTHOR_DATE}
+	date: $$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')
 	keywords:
 	description: "Introduction to the world of the powerful content tracking system called Git."
 	rights: CC BY-ND 4.0
@@ -32,22 +25,20 @@ build/metadata.yml: build
 	verbatim-in-note: true
 	...
 	EOF
-	cat build/metadata.yml
-
 
 build/git-from-the-bottom-up.pdf: build/metadata.yml
 	docker run \
 		--rm \
 		--volume "./:/data" \
 		--workdir "/data/" \
-		--user $(id -u):$(id -g) \
+		--user "$$(id -u):$$(id -g)" \
 		${PANDOC_IMG} \
 	        --from=markdown+smart \
 			--from=markdown+rebase_relative_paths \
 			-t pdf \
 	        -o build/$G.pdf \
 			build/metadata.yml \
-			$G/index.md \
+			${G}/index.md \
 			$G/1-Repository/*.md \
 			$G/2-The-Index/*.md \
 			$G/3-Reset/*.md \
@@ -60,7 +51,7 @@ build/git-from-the-bottom-up.epub: build/metadata.yml
 		--rm \
 		--volume "./:/data" \
 		--workdir "/data/" \
-		--user $(id -u):$(id -g) \
+		--user $$(id -u):$$(id -g) \
 		${PANDOC_IMG} \
         	--from=markdown+smart \
 			--from=markdown+rebase_relative_paths \
