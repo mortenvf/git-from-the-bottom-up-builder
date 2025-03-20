@@ -16,3 +16,7 @@ jobs:
         submodules: true
     - name: Build all
       run: make all
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        path: build/git-from-the-bottom-up.*
