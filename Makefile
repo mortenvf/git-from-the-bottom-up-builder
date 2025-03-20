@@ -12,9 +12,8 @@ build:
 
 build/metadata.yml: build
 	AUTHOR_DATE="$(git -C git-from-the-bottom-up log -1 --date=format:'%Y-%m-%d' --format="%cd")"
-	echo "${AUTHOR_DATE}"
-	cat >"build/metadata.yml" <<EOF
-	---
+	echo "---" >build/metadata.yml
+	cat >>build/metadata.yml <<EOF
 	title: "Git from the Bottom Up"
 	author: "John Wiegley"
 	date: ${AUTHOR_DATE}
