@@ -11,7 +11,10 @@ build:
 	mkdir -p build
 
 build/metadata.yml: build
-	AUTHOR_DATE="$(git -C git-from-the-bottom-up log -1 --date=format:'%Y-%m-%d' --format="%cd")"
+	ls -la "$G"
+	git -C "$G" log
+	git -C "$G" log -1 --date=format:'%Y-%m-%d' --format="%cd"
+	AUTHOR_DATE="$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format="%cd")"
 	echo "---" >build/metadata.yml
 	cat >>build/metadata.yml <<EOF
 	title: "Git from the Bottom Up"
