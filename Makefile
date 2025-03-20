@@ -13,8 +13,9 @@ build:
 build/metadata.yml: build
 	ls -la "$G"
 	git -C "$G" log
-	git -C "$G" log -1 --date=format:'%Y-%m-%d' --format="%cd"
-	AUTHOR_DATE="$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format="%cd")"
+	git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd'
+	echo "$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
+	AUTHOR_DATE="$(git -C "$G" log -1 --date=format:'%Y-%m-%d' --format='%cd')"
 	echo "---" >build/metadata.yml
 	cat >>build/metadata.yml <<EOF
 	title: "Git from the Bottom Up"
@@ -29,6 +30,8 @@ build/metadata.yml: build
 	verbatim-in-note: true
 	...
 	EOF
+	cat build/metadata.yml
+
 
 build/git-from-the-bottom-up.pdf: build/metadata.yml
 	docker run \
